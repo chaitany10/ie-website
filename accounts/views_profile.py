@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth import authenticate
-
-from .forms import PasswordForm, ProfileForm
+from django.http import HttpResponseRedirect
+from .forms import PasswordForm, ProfileForm, SIGForm
 from .models import Account
 from . import views
 
@@ -66,3 +66,22 @@ def profile_update(request):
             form = ProfileForm(profile.get_populated_fields())
     template_data['form'] = form
     return render(request, 'ienitk/profile/update.html', template_data)
+
+
+def apply(request):
+    authentication_result = views.authentication_check(request)
+    if authentication_result is not None:
+        return authentication_result
+    elif Account.objects.all().count() == 0:
+        return HttpResponseRedirect('/setup/')
+    template_data = views.parse_session(request, {'form_button': "Submit"})
+    if (request.method == 'POST'):
+        form = SIGForm(request.POST)
+        if (form.is_valid()):
+            print("OK")
+
+    else:
+        form = SIGForm()
+
+    template_data['form'] = form
+    return render(request, 'ienitk/apply.html', template_data)

@@ -150,3 +150,32 @@ class ProfileForm(BasicForm):
         profile.lastname = self.cleaned_data['lastname']
         profile.sex = self.cleaned_data['sex']
         profile.phone = self.cleaned_data['phone']
+
+
+class SIGForm(forms.Form):
+    Core_Sig_1 = forms.ChoiceField(choices=[(
+        ("CO", "Code"),
+        ("GD", "Gadget"),
+        ("GR", "Garage")
+
+    )])
+    Core_Sig_2 = forms.ChoiceField(choices=[(
+        ("CO", "Code"),
+        ("GD", "Gadget"),
+        ("GR", "Garage")
+
+    )])
+    Aux_Sig_1 = forms.ChoiceField(choices=[(
+        ("SR", "Script"),
+        ("VR", "Vriddhi"),
+        ("RO", "Robotics"),
+        ("CA", "Capital"),
+        ("ME", "Media")
+    )])
+    Aux_Sig_2 = forms.ChoiceField(choices=[(
+        ("SR", "Script"),
+        ("VR", "Vriddhi"),
+        ("RO", "Robotics"),
+        ("CA", "Capital"),
+        ("ME", "Media")
+    )])

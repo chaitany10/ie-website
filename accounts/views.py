@@ -78,5 +78,8 @@ def register_user(email, password, firstname, lastname, active ,role):
     return user
 
 
+# def apply_user(choice_1,choice_2,choice_3,choice_4):
+
+
 def sanitize_js(string):
     return string.replace("\\","\\\\").replace("'","\\'")

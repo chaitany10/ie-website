@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+from multiselectfield import MultiSelectField
 
 class Profile(models.Model):
     GENDER = (
@@ -81,17 +81,20 @@ class Status(models.Model):
         ("HR","HR")
     )
 
-    SIG_TYPES = (
+    SIG_TYPES_MAIN = (
         ("CO","Code"),
         ("GD","Gadget"),
-        ("GR","Garage"),
-        ("SR","Script"),
-        ("VR","Vriddhi"),
-        ("RO","Robotics"),
-        ("CA","Capital"),
-        ("ME","Media")
+        ("GR","Garage")
+
     )
 
+    SIG_TYPES_AUX = (
+        ("SR", "Script"),
+        ("VR", "Vriddhi"),
+        ("RO", "Robotics"),
+        ("CA", "Capital"),
+        ("ME", "Media")
+    )
     @staticmethod
     def to_status(key):
         key = key.lower()
@@ -103,12 +106,13 @@ class Status(models.Model):
     @staticmethod
     def to_sig(key):
         key = key.lower()
-        for item in Status.SIG_TYPES:
+        for item in Status.SIG_TYPES_MAIN:
             if item[1].lower() == key:
                 return item[0]
         return "None"
 
     user = models.ForeignKey(Account, on_delete=models.CASCADE)
-    SIG = models.CharField(null=True, max_length=2, choices=SIG_TYPES)
+    SIG_main = MultiSelectField(null=True, max_choices=2, choices=SIG_TYPES_MAIN)
+    SIG_aux = MultiSelectField(null=True, max_choices=2, choices=SIG_TYPES_AUX)
     status = models.CharField(max_length=2, choices=STATUS_TYPES)
     updated_at = models.DateTimeField(auto_now_add=True, editable=True)
